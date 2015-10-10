@@ -9,6 +9,9 @@ public class FileFeedback extends Feedback implements Serializable {
 	public static final String UPLOAD_FILE = "upload_file";
 	public static final String REMOVE_FILES = "remove_file";
 	
+	public FileFeedback(int mResult) {
+		super(mResult);
+	}
 	
 	
 	

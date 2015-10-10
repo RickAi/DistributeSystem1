@@ -8,6 +8,11 @@ public class Feedback implements Serializable {
 
 	private int mResult;
 	private String mResultMessage;
+	
+	public Feedback(int mResult) {
+		super();
+		this.mResult = mResult;
+	}
 
 	public int getResult() {
 		return mResult;
@@ -23,5 +28,10 @@ public class Feedback implements Serializable {
 
 	public void setResultMessage(String resultMessage) {
 		mResultMessage = resultMessage;
+	}
+	
+	@Override
+	public String toString() {
+		return (mResult == RESULT_SUCCESS)?"success":"fail";
 	}
 }

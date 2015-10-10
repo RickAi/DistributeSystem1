@@ -2,22 +2,32 @@ package beans;
 
 import java.io.Serializable;
 
+
 public class DSUser implements Serializable {
 	
-	private String mName;
-	private String mPassword;
+	private String name;
+	private String password;
 	
+	public DSUser(String name, String password) {
+		super();
+		this.name = name;
+		this.password = password;
+	}
 	public String getName() {
-		return mName;
+		return name;
 	}
 	public void setName(String name) {
-		mName = name;
+		name = this.name;
 	}
 	public String getPassword() {
-		return mPassword;
+		return password;
 	}
 	public void setPassword(String password) {
-		mPassword = password;
+		password = this.password;
+	}
+	@Override
+	public String toString() {
+		return "(" + name + " : " + password + ")";
 	}
 
 }
