@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import beans.DSUser;
 import beans.DSUsers;
@@ -24,9 +25,25 @@ public class TestLab {
 	public static final File USERS_FILE = new File(Constants.USERS_FILE);
 	
 	public static void main(String[] args) {
+		testData();
+		
+//		addData();
+	}
+	
+	private static void testData() {
 		UserSystem userSystem = new UserSystemImpl();
-		UserFeedback registered = userSystem.isRegistered(new DSUser("admin", "admin"));
-		System.out.println(registered);
+		UserFeedback register = userSystem.logout(new DSUser("cirrus", "cirrus"));
+		System.out.println(register);
+	}
+
+	public static void addData(){
+		DSUsers dsUsers = new DSUsers();
+		List<DSUser> users = dsUsers.getUsers();
+		users.add(new DSUser("admin", "admin"));
+		users.add(new DSUser("cirrus", "cirrus"));
+		Gson gson = new Gson();
+		String json = gson.toJson(dsUsers);
+		System.out.println(json);
 	}
 
 }

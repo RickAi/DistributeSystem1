@@ -3,8 +3,8 @@ package beans.feedbacks;
 import java.io.Serializable;
 
 public class Feedback implements Serializable {
-	public static final int RESULT_SUCCESS = 0;
-	public static final int RESULT_FAIL = 1;
+	public static final int RESULT_TRUE = 0;
+	public static final int RESULT_FALSE = 1;
 
 	private int mResult;
 	private String mResultMessage;
@@ -32,6 +32,6 @@ public class Feedback implements Serializable {
 	
 	@Override
 	public String toString() {
-		return (mResult == RESULT_SUCCESS)?"success":"fail";
+		return (mResult == RESULT_TRUE)?"true":"false";
 	}
 }

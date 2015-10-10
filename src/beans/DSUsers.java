@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DSUsers implements Serializable {
 	
-	private List<DSUser> users;
+	private List<DSUser> users = new ArrayList<DSUser>();
 
 	public List<DSUser> getUsers() {
 		return users;
