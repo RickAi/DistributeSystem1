@@ -1,16 +1,22 @@
 package impls;
 
-import java.util.List;
-
+import interfaces.UserSystem;
 import managers.DBManager;
 import beans.DSUser;
 import beans.DSUsers;
 import beans.feedbacks.Feedback;
 import beans.feedbacks.UserFeedback;
-import interfaces.UserSystem;
 
 public class UserSystemImpl implements UserSystem {
 
+	/**
+	 * UserSystem's implementation, the user can register, unregister, login, 
+	 * logout with this class's instance
+	 * 
+	 */
+	
+	
+	// whether the user is registered in the DB
 	public UserFeedback isRegistered(DSUser user) {
 		UserFeedback userFeedback = null;
 		DSUsers dsUsers = DBManager.getUsersFromFile();
@@ -25,6 +31,7 @@ public class UserSystemImpl implements UserSystem {
 		return userFeedback;
 	}
 
+	// register the user in the DB
 	public UserFeedback register(DSUser user) {
 		UserFeedback userFeedback = null;
 		if (!hasRegistered(user)) {
@@ -38,6 +45,7 @@ public class UserSystemImpl implements UserSystem {
 		return userFeedback;
 	}
 
+	// delete the user's info in the DB
 	public UserFeedback unregister(DSUser user) {
 		UserFeedback userFeedback = null;
 		if (hasRegistered(user)) {
@@ -51,9 +59,10 @@ public class UserSystemImpl implements UserSystem {
 		return userFeedback;
 	}
 
+	// login service for the user
 	public UserFeedback login(DSUser user) {
 		UserFeedback userFeedback = null;
-		if (DBManager.isUserInFile(user)) {
+		if (DBManager.isUserAuthorized(user)) {
 			userFeedback = new UserFeedback(UserFeedback.LOGIN_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -63,9 +72,10 @@ public class UserSystemImpl implements UserSystem {
 		return userFeedback;
 	}
 
+	// logout service for the user
 	public UserFeedback logout(DSUser user) {
 		UserFeedback userFeedback = null;
-		if (DBManager.isUserInFile(user)) {
+		if (DBManager.isUserAuthorized(user)) {
 			userFeedback = new UserFeedback(UserFeedback.LOGOUT_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -75,6 +85,7 @@ public class UserSystemImpl implements UserSystem {
 		return userFeedback;
 	}
 	
+	// whether the user has registered in the DB
 	private boolean hasRegistered(DSUser user){
 		UserFeedback feed = isRegistered(user);
 		return (feed.getResult() == Feedback.RESULT_TRUE);

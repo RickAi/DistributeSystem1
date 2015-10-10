@@ -3,6 +3,13 @@ package beans.feedbacks;
 import java.io.Serializable;
 
 public class UserFeedback extends Feedback implements Serializable {
+	
+	/**
+	 * 
+	 * The feedback of User operation.
+	 * register, unregister, login, logout, delete
+	 * 
+	 */
 
 	public static final String REGISTER_FEED = "register";
 	public static final String UNREGISTER_FEED = "unregister";

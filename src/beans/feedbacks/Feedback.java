@@ -3,6 +3,13 @@ package beans.feedbacks;
 import java.io.Serializable;
 
 public class Feedback implements Serializable {
+	
+	/**
+	 * 
+	 * The parent of all the feedback it contain result integer and result message
+	 * 
+	 */
+	
 	public static final int RESULT_TRUE = 0;
 	public static final int RESULT_FALSE = 1;
 

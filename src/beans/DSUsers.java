@@ -7,6 +7,12 @@ import java.util.List;
 
 public class DSUsers implements Serializable {
 	
+	/**
+	 * 
+	 * DSUsers is the collection of users, it contains a list of user
+	 * 
+	 */
+	
 	private List<DSUser> users = new ArrayList<DSUser>();
 
 	public List<DSUser> getUsers() {

@@ -17,6 +17,12 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class DBManager {
+	
+	/**
+	 * 
+	 * The manager of "database", in this project i use json files save user and file's data
+	 * 
+	 */
 
 	public static final File USERS_FILE = new File(Constants.USERS_FILE);
 	public static Gson gson;
@@ -25,11 +31,14 @@ public class DBManager {
 		gson = new Gson();
 	}
 	
-	public static boolean isUserInFile(DSUser user){
+	// judge whether user's name and password is authorized
+	public static boolean isUserAuthorized(DSUser user){
 		DSUsers dsUsers = getUsersFromFile();
 		return (existedUser(dsUsers, user) != null && passwordCorrect(dsUsers, user));
 	}
 	
+	// remove the user data from the file
+	// get new data -> blank file contents -> write new data contents
 	public static boolean removeUserFromFile(DSUser user) {
 		DSUsers dsUsers = getUsersFromFile();
 		boolean deleteResult = false;
@@ -45,6 +54,8 @@ public class DBManager {
 	}
 	
 
+	// add the user data into the file
+	// get new data -> blank file contents -> write new data contents
 	public static boolean addUserIntoFile(DSUser user) {
 		DSUsers dsUsers = getUsersFromFile();
 		boolean addResult = false;
@@ -58,6 +69,7 @@ public class DBManager {
 		return (addResult && emptyResult && writeResult);
 	}
 
+	// get all the user content with json format string
 	public static DSUsers getUsersFromFile() {
 		try {
 			return gson.fromJson(new FileReader(USERS_FILE), DSUsers.class);
@@ -71,6 +83,7 @@ public class DBManager {
 		return null;
 	}
 
+	// blank the file's content
 	public static boolean emptyFile(File file) {
 		try {
 			if (!file.exists()) {
@@ -87,6 +100,7 @@ public class DBManager {
 		return true;
 	}
 	
+	// write data into the file
 	public static boolean writeToFile(File file, String data) {
 		try {
 			if (!file.exists()) {
@@ -105,6 +119,7 @@ public class DBManager {
 		}
 	}
 	
+	// return the use with the same name as user in the dsUsers's list
 	public static DSUser existedUser(DSUsers dsUsers, DSUser user){
 		List<DSUser> existedUsers = dsUsers.getUsers();
 		String name = user.getName();
@@ -116,6 +131,7 @@ public class DBManager {
 		return null;
 	}
 	
+	// remove the user with the same name as user in the dsUsers's list
 	public static void removeUser(DSUsers dsUsers, DSUser user){
 		List<DSUser> existedUsers = dsUsers.getUsers();
 		String name = user.getName();
@@ -127,6 +143,7 @@ public class DBManager {
 		}
 	}
 	
+	// judge the user match is correct password in the dsUsers's list
 	public static boolean passwordCorrect(DSUsers dsUsers, DSUser user){
 		DSUser existedUser = existedUser(dsUsers, user);
 		return existedUser.getPassword().equals(user.getPassword());

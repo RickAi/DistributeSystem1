@@ -5,6 +5,12 @@ import java.io.Serializable;
 
 public class DSUser implements Serializable {
 	
+	/**
+	 * 
+	 * DSUser is the model of the user, it contains all the info of one single user
+	 * 
+	 */
+	
 	private String name;
 	private String password;
 	
