@@ -6,6 +6,7 @@ import interfaces.UserSystem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,13 @@ public class TestLab {
 	
 	private static void testData() {
 		UserSystem userSystem = new UserSystemImpl();
-		UserFeedback register = userSystem.logout(new DSUser("cirrus", "cirrus"));
-		System.out.println(register);
+		UserFeedback register;
+		try {
+			register = userSystem.logout(new DSUser("cirrus", "cirrus"));
+			System.out.println(register);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void addData(){
