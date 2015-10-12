@@ -1,5 +1,6 @@
 package managers;
 
+import beans.DSUser;
 import client.view.ClientFrame;
 import interfaces.FileSystem;
 import interfaces.StatisticSystem;
@@ -12,5 +13,7 @@ public class ServiceManager {
 	public static StatisticSystem statisticSystem;
 	
 	public static ClientFrame clientFrame;
+	public static DSUser dsUser;
+	
 	
 }

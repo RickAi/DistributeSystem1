@@ -1,9 +1,11 @@
 package client.view;
 
 import interfaces.FileSystem;
+import interfaces.UserSystem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -13,6 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import beans.DSUser;
+import beans.feedbacks.UserFeedback;
 
 import managers.ServiceManager;
 import utils.Constants;
@@ -30,6 +34,7 @@ public class MainPanel extends JPanel {
 	private FileListModel fileListModel;
 	private JScrollPane fileScroll;
 	
+	private UserSystem userSystem;
 	private FileSystem fileSystem;
 	private ClientFrame clientFrame;
 	
@@ -45,12 +50,14 @@ public class MainPanel extends JPanel {
 	private void initListeners() {
 		MainPanelListener mainPanelListener = new MainPanelListener();
 		btnLogout.addActionListener(mainPanelListener);
+		btnDeleteUser.addActionListener(mainPanelListener);
 		FileListSelectionListener  fileSelectionListener = new FileListSelectionListener();
 		fileList.addListSelectionListener(fileSelectionListener);
 	}
 
 
 	private void initServices() {
+		userSystem = ServiceManager.userSystem;
 		fileSystem = ServiceManager.fileSystem;
 		clientFrame = ServiceManager.clientFrame;
 	}
@@ -98,10 +105,12 @@ public class MainPanel extends JPanel {
 			Object obj = e.getSource();
 			
 			if(obj == btnLogout){
-				clientFrame.loadLoginPanel();
+				logoutRequest();
+			} else if(obj == btnDeleteUser){
+				deleteUserRequest();
 			} else if(obj == btnRemoveFile){
 				int selectedIndex = fileList.getSelectedIndex();
-			}
+			} 
 		}
 	}
 	
@@ -127,7 +136,34 @@ public class MainPanel extends JPanel {
 			String stringValue = (String)fileList.getSelectedValue();
 		}
 	}
-	
 
+	public void logoutRequest() {
+		try {
+			UserFeedback userFeedback = userSystem.logout(ServiceManager.dsUser);
+			if(userFeedback.isSuccess()){
+				clientFrame.loadLoginPanel();
+				clientFrame.popUpSuccess(Constants.SUCCESS_LOGOUT);
+			} else{
+				clientFrame.popupUserError(Constants.ERROR_USER_LOGOUT);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public void deleteUserRequest() {
+		try {
+			UserFeedback userFeedback = userSystem.unregister(ServiceManager.dsUser);
+			if(userFeedback.isSuccess()){
+				clientFrame.loadLoginPanel();
+				clientFrame.popUpSuccess(Constants.SUCCESS_UNREGISTER);
+			} else{
+				clientFrame.popupUserError(Constants.ERROR_USER_UNREGISTER);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

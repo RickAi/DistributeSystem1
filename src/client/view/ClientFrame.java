@@ -6,6 +6,8 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import beans.DSUser;
+
 import managers.ServiceManager;
 
 import utils.Constants;
@@ -110,6 +112,17 @@ public class ClientFrame extends JFrame {
 			JOptionPane.showMessageDialog(null,
 					"Register failed, the name already exists!", "register error",
 					JOptionPane.WARNING_MESSAGE);
+			break;
+		case Constants.ERROR_USER_LOGOUT:
+			JOptionPane.showMessageDialog(null,
+					"Logout failed!", "logout error",
+					JOptionPane.WARNING_MESSAGE);
+			break;
+		case Constants.ERROR_USER_UNREGISTER:
+			JOptionPane.showMessageDialog(null,
+					"Unregister failed!", "unregister error",
+					JOptionPane.WARNING_MESSAGE);
+			break;
 		default:
 			break;
 		}
@@ -133,6 +146,13 @@ public class ClientFrame extends JFrame {
 			break;
 		case Constants.SUCCESS_LOGIN:
 			JOptionPane.showMessageDialog(null,"Welcome!");
+			break;
+		case Constants.SUCCESS_LOGOUT:
+			JOptionPane.showMessageDialog(null,"Logout success!");
+			break;
+		case Constants.SUCCESS_UNREGISTER:
+			DSUser dsUser = ServiceManager.dsUser;
+			JOptionPane.showMessageDialog(null,"Delete user sucess!\n\n- name:" + dsUser.getName()+"\n- password:" + dsUser.getPassword());
 			break;
 		default:
 			break;
