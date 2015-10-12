@@ -1,7 +1,69 @@
 package client.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import interfaces.UserSystem;
+
+import javax.imageio.spi.RegisterableService;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import managers.ServiceManager;
+
+import utils.Constants;
 
 public class RegisterPanel extends JPanel {
+	
+	private JTextField tfName;
+	private JTextField tfPassword;
+	private JTextField tfPassword2;
+	private JButton btnRegister;
+	
+	private UserSystem userSystem;
+	private ClientFrame clientFrame;
+	
+	public RegisterPanel() {
+		initServices();
+		initComponents();
+		initLocations();
+		initListeners();
+	}
+
+	private void initListeners() {
+		btnRegister.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clientFrame.loadLoginPanel();
+			}
+		});
+	}
+
+	private void initLocations() {
+		tfName.setBounds(150, 150, 300, 30);
+		tfPassword.setBounds(150, 200, 300, 30);
+		tfPassword2.setBounds(150, 250, 300, 30);
+		btnRegister.setBounds(190, 300, 200, 30);
+		
+		this.setLayout(null);
+		this.add(tfName);
+		this.add(tfPassword);
+		this.add(tfPassword2);
+		this.add(btnRegister);
+	}
+
+	private void initComponents() {
+		tfName = new JTextField();
+		tfPassword = new JTextField();
+		tfPassword2 = new JTextField();
+		btnRegister = new JButton(Constants.REGISTER_BUTTON);
+	}
+
+	private void initServices() {
+		clientFrame = ServiceManager.clientFrame;
+		userSystem = ServiceManager.userSystem;
+	}
 
 }

@@ -9,22 +9,26 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import managers.ServiceManager;
+
+import client.view.ClientFrame;
+
 import utils.Constants;
 
 public class Client {
 	
-	private UserSystem userSystem;
-	private FileSystem fileSystem;
-	private StatisticSystem statisticSystem;
+	private ClientFrame clientFrame;
 	
+	public Client() {
+		clientFrame = new ClientFrame();
+		initServices();
+	}
 	
-	
-	
-	public void initServices(){
+	private void initServices(){
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
-			userSystem = (UserSystem) registry.lookup(Constants.SERVICE_USER);
+			ServiceManager.userSystem = (UserSystem) registry.lookup(Constants.SERVICE_USER);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
