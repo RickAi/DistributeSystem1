@@ -20,6 +20,10 @@ public class Feedback implements Serializable {
 		super();
 		this.mResult = mResult;
 	}
+	
+	public boolean isSuccess(){
+		return mResult == RESULT_TRUE;
+	}
 
 	public int getResult() {
 		return mResult;

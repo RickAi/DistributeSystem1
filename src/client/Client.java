@@ -20,15 +20,22 @@ public class Client {
 	private ClientFrame clientFrame;
 	
 	public Client() {
-		clientFrame = new ClientFrame();
 		initServices();
+		initFrame();
 	}
 	
+	private void initFrame() {
+		clientFrame = new ClientFrame();
+		clientFrame.isServiceConnected();
+	}
+
 	private void initServices(){
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
 			ServiceManager.userSystem = (UserSystem) registry.lookup(Constants.SERVICE_USER);
+			ServiceManager.fileSystem = (FileSystem) registry.lookup(Constants.SERVICE_FILE);
+			ServiceManager.statisticSystem = (StatisticSystem) registry.lookup(Constants.SERVICE_STATISTIC);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (NotBoundException e) {

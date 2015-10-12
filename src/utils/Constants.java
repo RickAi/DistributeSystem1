@@ -35,5 +35,25 @@ public class Constants {
 	public static final String FILE_REMOVE = "remove file";
 	public static final String FILE_DOWNLOAD = "download";
 	
+	// Errors
+	public static final int ERROR_NO_CONNECTION = 0;
+	public static final int ERROR_USER_LOGIN = 1;
+	public static final int ERROR_USER_REGISTER = 2;
+	public static final int ERROR_USER_UNREGISTER = 3;
+	public static final int ERROR_USER_IS_REGISTER = 4;
+	public static final int ERROR_FILE_DOWNLOAD = 5;
+	public static final int ERROR_FILE_UPLOAD = 6;
+	public static final int ERROR_FILE_AVAILABLE = 7;
+	public static final int ERROR_FILE_REMOVE = 8;
+	public static final int ERROR_SATISTIC_NUMBER = 9;
+	public static final int ERROR_SATISTIC_FILE = 10;
+	public static final int ERROR_REGISTER_PASSWORD = 11;
+	
+	// Success
+	public static final int SUCCESS_REGISTER = 0;
+	public static final int SUCCESS_UPLOAD_FILE = 1;
+	public static final int SUCCESS_LOGIN = 2;
+	
+	
 
 }

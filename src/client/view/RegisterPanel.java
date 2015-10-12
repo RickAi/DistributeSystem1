@@ -2,6 +2,7 @@ package client.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import interfaces.UserSystem;
 
@@ -9,6 +10,9 @@ import javax.imageio.spi.RegisterableService;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import beans.DSUser;
+import beans.feedbacks.UserFeedback;
 
 import managers.ServiceManager;
 
@@ -36,7 +40,25 @@ public class RegisterPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clientFrame.loadLoginPanel();
+				if(!tfPassword.getText().equals(tfPassword2.getText())){
+					clientFrame.popupUserError(Constants.ERROR_REGISTER_PASSWORD);
+					return ;
+				}
+				
+				DSUser dsUser = new DSUser(tfName.getText(), tfPassword.getText());
+				try {
+					UserFeedback userFeedback = userSystem.register(dsUser);
+					if(userFeedback.isSuccess()){
+						clearInputs();
+						clientFrame.loadLoginPanel();
+						clientFrame.popUpSuccess(Constants.SUCCESS_REGISTER);
+					} else{
+						clientFrame.popupUserError(Constants.ERROR_USER_REGISTER);
+					}
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+					
 			}
 		});
 	}
@@ -64,6 +86,12 @@ public class RegisterPanel extends JPanel {
 	private void initServices() {
 		clientFrame = ServiceManager.clientFrame;
 		userSystem = ServiceManager.userSystem;
+	}
+	
+	public void clearInputs(){
+		tfName.setText(Constants.EMPTY_STRING);
+		tfPassword.setText(Constants.EMPTY_STRING);
+		tfPassword2.setText(Constants.EMPTY_STRING);
 	}
 
 }

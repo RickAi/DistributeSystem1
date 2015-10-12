@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import managers.ServiceManager;
 
@@ -19,10 +20,22 @@ public class ClientFrame extends JFrame {
 
 	public ClientFrame() {
 		super(Constants.CLIENT_NAME);
-		
-		ServiceManager.clientFrame = this;
+
+		initService();
 		initPanels();
 		initFrame();
+	}
+
+	private void initService() {
+		ServiceManager.clientFrame = this;
+	}
+
+	public void isServiceConnected() {
+		if(ServiceManager.userSystem == null 
+				|| ServiceManager.fileSystem == null 
+				|| ServiceManager.statisticSystem == null){
+			popUpConnectionError(Constants.ERROR_NO_CONNECTION);
+		}
 	}
 
 	private void initPanels() {
@@ -64,10 +77,66 @@ public class ClientFrame extends JFrame {
 		this.setContentPane(reportPanel);
 		repaintFrame();
 	}
-	
-	private void repaintFrame(){
+
+	private void repaintFrame() {
 		this.getContentPane().validate();
-		this.getContentPane().repaint(); 
+		this.getContentPane().repaint();
+	}
+
+	public void popUpConnectionError(int errorType) {
+		switch (errorType) {
+		case Constants.ERROR_NO_CONNECTION:
+			JOptionPane.showMessageDialog(null, "No connection!", "error",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void popupUserError(int errorType) {
+		switch (errorType) {
+		case Constants.ERROR_USER_LOGIN:
+			JOptionPane.showMessageDialog(null,
+					"Name and password does not match!", "login error",
+					JOptionPane.WARNING_MESSAGE);
+			break;
+		case Constants.ERROR_REGISTER_PASSWORD:
+			JOptionPane.showMessageDialog(null,
+					"Two passwords does not match!", "register error",
+					JOptionPane.WARNING_MESSAGE);
+			break;
+		case Constants.ERROR_USER_REGISTER:
+			JOptionPane.showMessageDialog(null,
+					"Register failed, the name already exists!", "register error",
+					JOptionPane.WARNING_MESSAGE);
+		default:
+			break;
+		}
+	}
+
+	public void popUpFileError(int errorType) {
+
+	}
+
+	public void popUpStatisticError(int errorType) {
+
+	}
+	
+	public void popUpSuccess(int successType){
+		switch (successType) {
+		case Constants.SUCCESS_REGISTER:
+			JOptionPane.showMessageDialog(null,"Register success!");
+			break;
+		case Constants.SUCCESS_UPLOAD_FILE:
+			JOptionPane.showMessageDialog(null,"Upload file success!");
+			break;
+		case Constants.SUCCESS_LOGIN:
+			JOptionPane.showMessageDialog(null,"Welcome!");
+			break;
+		default:
+			break;
+		}
 	}
 
 }

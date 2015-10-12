@@ -2,12 +2,16 @@ package client.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import interfaces.UserSystem;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import beans.DSUser;
+import beans.feedbacks.UserFeedback;
 
 import utils.Constants;
 
@@ -70,12 +74,38 @@ public class LoginPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			Object obj = e.getSource();
 			if(obj == btnLogin){
-				clientFrame.loadMainPanel();
+				loginRequest();
 			} else if(obj == btnRegister){
-				clientFrame.loadRegisterPanel();
+				registerRequest();
 			}
 		}
-		
 	}
+
+	public void loginRequest() {
+		DSUser user = new DSUser(tfName.getText(), tfPassword.getText());
+		try {
+			UserFeedback userFeedback = userSystem.login(user);
+			if(userFeedback.isSuccess()){
+				clearInputs();
+				clientFrame.loadMainPanel();
+				clientFrame.popUpSuccess(Constants.SUCCESS_LOGIN);
+			} else{
+				clientFrame.popupUserError(Constants.ERROR_USER_LOGIN);
+			}
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void registerRequest() {
+		clientFrame.loadRegisterPanel();
+	}
+	
+	public void clearInputs(){
+		tfName.setText(Constants.EMPTY_STRING);
+		tfPassword.setText(Constants.EMPTY_STRING);
+	}
+	
 
 }
