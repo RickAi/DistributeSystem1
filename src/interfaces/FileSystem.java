@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -14,7 +15,7 @@ public interface FileSystem extends Remote {
 	public FileFeedback downloadFile() throws RemoteException;
 	
 	// 5. add file by user
-	public FileFeedback uploadFile() throws RemoteException;
+	public FileFeedback uploadFile(File file) throws RemoteException;
 	
 	// 5. remove file by user
 	public FileFeedback removeFile() throws RemoteException;

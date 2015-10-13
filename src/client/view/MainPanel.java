@@ -5,10 +5,12 @@ import interfaces.UserSystem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.rmi.RemoteException;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,39 +24,37 @@ import managers.ServiceManager;
 import utils.Constants;
 
 public class MainPanel extends JPanel {
-	
+
 	private JButton btnRemoveFile;
 	private JButton btnDownload;
 	private JButton btnAddFile;
 	private JButton btnReport;
 	private JButton btnLogout;
 	private JButton btnDeleteUser;
-	
+
 	private JList<String> fileList;
 	private FileListModel fileListModel;
 	private JScrollPane fileScroll;
-	
+
 	private UserSystem userSystem;
 	private FileSystem fileSystem;
 	private ClientFrame clientFrame;
-	
-	
-	public MainPanel(){
+
+	public MainPanel() {
 		initServices();
 		initComponents();
 		initLocations();
 		initListeners();
 	}
-	
-	
+
 	private void initListeners() {
 		MainPanelListener mainPanelListener = new MainPanelListener();
 		btnLogout.addActionListener(mainPanelListener);
 		btnDeleteUser.addActionListener(mainPanelListener);
-		FileListSelectionListener  fileSelectionListener = new FileListSelectionListener();
+		btnAddFile.addActionListener(mainPanelListener);
+		FileListSelectionListener fileSelectionListener = new FileListSelectionListener();
 		fileList.addListSelectionListener(fileSelectionListener);
 	}
-
 
 	private void initServices() {
 		userSystem = ServiceManager.userSystem;
@@ -69,9 +69,9 @@ public class MainPanel extends JPanel {
 		btnRemoveFile.setBounds(30, 130, 100, 30);
 		btnLogout.setBounds(30, 290, 100, 30);
 		btnDeleteUser.setBounds(30, 330, 100, 30);
-		
+
 		fileScroll.setBounds(180, 10, 380, 350);
-		
+
 		this.setLayout(null);
 		this.add(btnRemoveFile);
 		this.add(btnAddFile);
@@ -90,32 +90,33 @@ public class MainPanel extends JPanel {
 		btnReport = new JButton(Constants.FILE_REPORT);
 		btnLogout = new JButton(Constants.USER_LOGOUT);
 		btnDeleteUser = new JButton(Constants.USER_DELETE);
-		
+
 		// list in the right
 		fileListModel = new FileListModel();
 		fileList = new JList<String>(fileListModel);
 		fileScroll = new JScrollPane();
 		fileScroll.getViewport().add(fileList);
 	}
-	
-	class MainPanelListener implements ActionListener{
+
+	class MainPanelListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object obj = e.getSource();
-			
-			if(obj == btnLogout){
+
+			if (obj == btnLogout) {
 				logoutRequest();
-			} else if(obj == btnDeleteUser){
+			} else if (obj == btnDeleteUser) {
 				deleteUserRequest();
-			} else if(obj == btnRemoveFile){
+			} else if (obj == btnRemoveFile) {
 				int selectedIndex = fileList.getSelectedIndex();
-			} 
+			} else if (obj == btnAddFile) {
+				uploadFile();
+			}
 		}
 	}
-	
-	class FileListModel extends AbstractListModel{
-		
+
+	class FileListModel extends AbstractListModel {
 
 		@Override
 		public int getSize() {
@@ -126,24 +127,25 @@ public class MainPanel extends JPanel {
 		public Object getElementAt(int index) {
 			return "file" + index;
 		}
-		
+
 	}
-	
-	class FileListSelectionListener implements ListSelectionListener{
+
+	class FileListSelectionListener implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			String stringValue = (String)fileList.getSelectedValue();
+			String stringValue = (String) fileList.getSelectedValue();
 		}
 	}
 
 	public void logoutRequest() {
 		try {
-			UserFeedback userFeedback = userSystem.logout(ServiceManager.dsUser);
-			if(userFeedback.isSuccess()){
+			UserFeedback userFeedback = userSystem
+					.logout(ServiceManager.dsUser);
+			if (userFeedback.isSuccess()) {
 				clientFrame.loadLoginPanel();
 				clientFrame.popUpSuccess(Constants.SUCCESS_LOGOUT);
-			} else{
+			} else {
 				clientFrame.popupUserError(Constants.ERROR_USER_LOGOUT);
 			}
 		} catch (RemoteException e) {
@@ -151,19 +153,46 @@ public class MainPanel extends JPanel {
 		}
 	}
 
-
 	public void deleteUserRequest() {
 		try {
-			UserFeedback userFeedback = userSystem.unregister(ServiceManager.dsUser);
-			if(userFeedback.isSuccess()){
+			UserFeedback userFeedback = userSystem
+					.unregister(ServiceManager.dsUser);
+			if (userFeedback.isSuccess()) {
 				clientFrame.loadLoginPanel();
 				clientFrame.popUpSuccess(Constants.SUCCESS_UNREGISTER);
-			} else{
+			} else {
 				clientFrame.popupUserError(Constants.ERROR_USER_UNREGISTER);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void uploadFile() {
+		JFileChooser fc = new JFileChooser("");
+		fc.setMultiSelectionEnabled(false);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileHidingEnabled(false);
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.showOpenDialog(this);
+		
+		File uploadedFile = fc.getSelectedFile();
+		try {
+			fileSystem.uploadFile(uploadedFile);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void downloadFile() {
+		JFileChooser fc = new JFileChooser("");
+		fc.setMultiSelectionEnabled(false);
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setFileHidingEnabled(false);
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.showOpenDialog(this);
+	}
+	
+	
 
 }

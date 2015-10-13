@@ -21,6 +21,9 @@ public class Feedback implements Serializable {
 		this.mResult = mResult;
 	}
 	
+	public Feedback() {
+	}
+
 	public boolean isSuccess(){
 		return mResult == RESULT_TRUE;
 	}

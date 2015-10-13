@@ -13,6 +13,9 @@ public class FileFeedback extends Feedback implements Serializable {
 		super(mResult);
 	}
 	
+	public FileFeedback(){
+	}
+	
 	
 	
 }
