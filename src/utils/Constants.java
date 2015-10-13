@@ -41,7 +41,6 @@ public class Constants {
 	public static final int ERROR_USER_REGISTER = 2;
 	public static final int ERROR_USER_UNREGISTER = 3;
 	public static final int ERROR_USER_IS_REGISTER = 4;
-	public static final int ERROR_USER_LOGOUT = 12;
 	public static final int ERROR_FILE_DOWNLOAD = 5;
 	public static final int ERROR_FILE_UPLOAD = 6;
 	public static final int ERROR_FILE_AVAILABLE = 7;
@@ -49,6 +48,8 @@ public class Constants {
 	public static final int ERROR_SATISTIC_NUMBER = 9;
 	public static final int ERROR_SATISTIC_FILE = 10;
 	public static final int ERROR_REGISTER_PASSWORD = 11;
+	public static final int ERROR_USER_LOGOUT = 12;
+	public static final int ERROR_FILE_NO_CONTENT = 13;
 	
 	// Success
 	public static final int SUCCESS_REGISTER = 0;

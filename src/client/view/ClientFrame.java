@@ -129,7 +129,18 @@ public class ClientFrame extends JFrame {
 	}
 
 	public void popUpFileError(int errorType) {
-
+		switch (errorType) {
+		case Constants.ERROR_FILE_UPLOAD:
+			JOptionPane.showMessageDialog(null, "Upload file failed!", "upload error",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		case Constants.ERROR_FILE_NO_CONTENT:
+			JOptionPane.showMessageDialog(null, "The uploaded file cannot be empty!", "upload error",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		default:
+			break;
+		}
 	}
 
 	public void popUpStatisticError(int errorType) {

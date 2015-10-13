@@ -16,44 +16,54 @@ import beans.feedbacks.FileFeedback;
 public class FileSystemImpl implements FileSystem {
 
 	public FileFeedback availableFiles() {
+		File root = new File(Constants.FILE_DIR);
+		
+		
 		return null;
 	}
 
-	public FileFeedback downloadFile() {
-		return null;
+	public FileFeedback downloadFile(String fileName) {
+		File file = new File(Constants.FILE_DIR + "/" + fileName);
+		FileFeedback fileFeedback = new FileFeedback();
+		if(file.exists()){
+			fileFeedback.setFile(file);
+			fileFeedback.setResult(Feedback.RESULT_TRUE);
+		} else{
+			fileFeedback.setResult(Feedback.RESULT_FALSE);
+		}
+		return fileFeedback;
 	}
-	
+
+	// TODO: user thread
 	public FileFeedback uploadFile(File file) {
-		FileInputStream inputStream;  
-        FileOutputStream outputStream;
-        FileFeedback fileFeedback = new FileFeedback();
-        
-        
-        File uploadedFile = new File(Constants.FILE_DIR + '/' + file.getName());
-        if(uploadedFile.exists()){
-        		fileFeedback.setResult(Feedback.RESULT_FALSE);
-        		return fileFeedback;
-        } else{
-        		try {
-					uploadedFile.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-        }
-        
+		FileInputStream inputStream;
+		FileOutputStream outputStream;
+		FileFeedback fileFeedback = new FileFeedback();
+
+		File uploadedFile = new File(Constants.FILE_DIR + '/' + file.getName());
+		if (uploadedFile.exists()) {
+			fileFeedback.setResult(Feedback.RESULT_FALSE);
+			return fileFeedback;
+		} else {
+			try {
+				uploadedFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
-			inputStream = new FileInputStream(file);  
-			outputStream = new FileOutputStream(Constants.FILE_DIR);
-			int b = 0;  
-			byte[] buffer = new byte[512];  
-			while (b != -1){  
-				b = inputStream.read(buffer);  
-				//4.写到输出流(out)中  
-				outputStream.write(buffer,0,b);  
-			}  
-			outputStream.flush(); 
-			inputStream.close();  
-			outputStream.close();  
+			inputStream = new FileInputStream(file);
+			outputStream = new FileOutputStream(uploadedFile);
+			byte[] buf = new byte[1024];
+			int len = 0;
+			while ((len = inputStream.read(buf)) > 0) {
+				outputStream.write(buf, 0, len);
+			}
+			if (inputStream != null)
+				inputStream.close();
+			if (outputStream != null)
+				outputStream.close();
 			fileFeedback.setResult(Feedback.RESULT_TRUE);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -62,12 +72,20 @@ public class FileSystemImpl implements FileSystem {
 			e.printStackTrace();
 			fileFeedback.setResult(Feedback.RESULT_FALSE);
 		} 
-		
+
 		return fileFeedback;
 	}
 
-	public FileFeedback removeFile() {
-		return null;
+	public FileFeedback removeFile(String fileName) {
+		File file = new File(Constants.FILE_DIR + "/" + fileName);
+		FileFeedback fileFeedback = new FileFeedback();
+		if(file.exists()){
+			file.delete();
+			fileFeedback.setResult(Feedback.RESULT_TRUE);
+		} else{
+			fileFeedback.setResult(Feedback.RESULT_FALSE);
+		}
+		return fileFeedback;
 	}
 
 }

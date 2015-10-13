@@ -17,7 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.FileChooserUI;
+
 import beans.DSUser;
+import beans.feedbacks.FileFeedback;
 import beans.feedbacks.UserFeedback;
 
 import managers.ServiceManager;
@@ -169,30 +172,42 @@ public class MainPanel extends JPanel {
 	}
 	
 	public void uploadFile() {
-		JFileChooser fc = new JFileChooser("");
-		fc.setMultiSelectionEnabled(false);
-		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fc.setFileHidingEnabled(false);
-		fc.setAcceptAllFileFilterUsed(false);
-		fc.showOpenDialog(this);
+		JFileChooser fc = createFileChooser();
 		
 		File uploadedFile = fc.getSelectedFile();
+		if(uploadedFile == null){
+			return ;
+		} else if(uploadedFile.length() == 0){
+			clientFrame.popUpFileError(Constants.ERROR_FILE_NO_CONTENT);
+			return ;
+		}
+		
 		try {
-			fileSystem.uploadFile(uploadedFile);
+			FileFeedback fileFeedback = fileSystem.uploadFile(uploadedFile);
+			if(fileFeedback.isSuccess()){
+				clientFrame.popUpSuccess(Constants.SUCCESS_UPLOAD_FILE);
+			} else{
+				clientFrame.popUpFileError(Constants.ERROR_FILE_UPLOAD);
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			clientFrame.popUpFileError(Constants.ERROR_FILE_UPLOAD);
 		}
 	}
 
 	public void downloadFile() {
-		JFileChooser fc = new JFileChooser("");
-		fc.setMultiSelectionEnabled(false);
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setFileHidingEnabled(false);
-		fc.setAcceptAllFileFilterUsed(false);
-		fc.showOpenDialog(this);
+		JFileChooser fc = createFileChooser();
 	}
 	
+	private JFileChooser createFileChooser(){
+		JFileChooser fc = new JFileChooser("");
+		fc.setMultiSelectionEnabled(false);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileHidingEnabled(true);
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.showOpenDialog(this);
+		return fc;
+	}
 	
 
 }

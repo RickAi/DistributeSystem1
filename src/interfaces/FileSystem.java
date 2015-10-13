@@ -12,12 +12,12 @@ public interface FileSystem extends Remote {
 	public FileFeedback availableFiles() throws RemoteException;
 	
 	// 4. transfer file
-	public FileFeedback downloadFile() throws RemoteException;
+	public FileFeedback downloadFile(String fileName) throws RemoteException;
 	
 	// 5. add file by user
 	public FileFeedback uploadFile(File file) throws RemoteException;
 	
 	// 5. remove file by user
-	public FileFeedback removeFile() throws RemoteException;
+	public FileFeedback removeFile(String fileName) throws RemoteException;
 	
 }
