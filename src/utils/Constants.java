@@ -7,6 +7,7 @@ import javax.swing.Icon;
 public class Constants {
 	
 	// DB
+	public static final String STATISTIC_FILE = "DB/statistics/statistics.json";
 	public static final String USERS_FILE = "DB/users/users.json";
 	public static final String USERS_RECORDS = "DB/records/user_records.json";
 	public static final String FILES_RECORDS = "DB/records/file_records.json";
@@ -62,6 +63,10 @@ public class Constants {
 	public static final int SUCCESS_LOGOUT = 3;
 	public static final int SUCCESS_UNREGISTER = 4;
 	
+	// file report
+	public static final int FILE_REPORT_DOWNLOAD = 0;
+	public static final int FILE_REPORT_UPLOAD = 1;
+	public static final int FILE_REPORT_REMOVE = 2;
 	
 
 }
