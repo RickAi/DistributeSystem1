@@ -1,7 +1,7 @@
 package impls;
 
 import interfaces.UserSystem;
-import managers.DBManager;
+import managers.UserManager;
 import beans.DSUser;
 import beans.DSUsers;
 import beans.feedbacks.Feedback;
@@ -19,9 +19,9 @@ public class UserSystemImpl implements UserSystem {
 	// whether the user is registered in the DB
 	public UserFeedback isRegistered(DSUser user) {
 		UserFeedback userFeedback = null;
-		DSUsers dsUsers = DBManager.getUsersFromFile();
+		DSUsers dsUsers = UserManager.getUsersFromFile();
 		System.out.println(dsUsers);
-		if (DBManager.existedUser(dsUsers, user) != null) {
+		if (UserManager.existedUser(dsUsers, user) != null) {
 			userFeedback = new UserFeedback(UserFeedback.IS_REGISTER_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -35,7 +35,7 @@ public class UserSystemImpl implements UserSystem {
 	public UserFeedback register(DSUser user) {
 		UserFeedback userFeedback = null;
 		if (!hasRegistered(user)) {
-			DBManager.addUserIntoFile(user);
+			UserManager.addUserIntoFile(user);
 			userFeedback = new UserFeedback(UserFeedback.REGISTER_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -49,7 +49,7 @@ public class UserSystemImpl implements UserSystem {
 	public UserFeedback unregister(DSUser user) {
 		UserFeedback userFeedback = null;
 		if (hasRegistered(user)) {
-			DBManager.removeUserFromFile(user);
+			UserManager.removeUserFromFile(user);
 			userFeedback = new UserFeedback(UserFeedback.UNREGISTER_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -62,7 +62,7 @@ public class UserSystemImpl implements UserSystem {
 	// login service for the user
 	public UserFeedback login(DSUser user) {
 		UserFeedback userFeedback = null;
-		if (DBManager.isUserAuthorized(user)) {
+		if (UserManager.isUserAuthorized(user)) {
 			userFeedback = new UserFeedback(UserFeedback.LOGIN_FEED,
 					Feedback.RESULT_TRUE);
 		} else {
@@ -75,7 +75,7 @@ public class UserSystemImpl implements UserSystem {
 	// logout service for the user
 	public UserFeedback logout(DSUser user) {
 		UserFeedback userFeedback = null;
-		if (DBManager.isUserAuthorized(user)) {
+		if (UserManager.isUserAuthorized(user)) {
 			userFeedback = new UserFeedback(UserFeedback.LOGOUT_FEED,
 					Feedback.RESULT_TRUE);
 		} else {

@@ -18,7 +18,7 @@ public class ClientFrame extends JFrame {
 	private LoginPanel loginPanel;
 	private RegisterPanel registerPanel;
 	private MainPanel mainPanel;
-	private ReportPanel reportPanel;
+	private StatisticPanel reportPanel;
 
 	public ClientFrame() {
 		super(Constants.CLIENT_NAME);
@@ -44,7 +44,7 @@ public class ClientFrame extends JFrame {
 		loginPanel = new LoginPanel();
 		registerPanel = new RegisterPanel();
 		mainPanel = new MainPanel();
-		reportPanel = new ReportPanel();
+		reportPanel = new StatisticPanel();
 	}
 
 	private void initFrame() {

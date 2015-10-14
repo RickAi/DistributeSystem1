@@ -86,8 +86,8 @@ public class LoginPanel extends JPanel {
 		try {
 			UserFeedback userFeedback = userSystem.login(user);
 			if(userFeedback.isSuccess()){
-				clearInputs();
 				ServiceManager.dsUser = user;
+				clearInputs();
 				clientFrame.loadMainPanel();
 				clientFrame.popUpFileSuccess(Constants.SUCCESS_LOGIN);
 			} else{

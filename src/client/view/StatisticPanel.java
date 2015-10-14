@@ -2,6 +2,8 @@ package client.view;
 
 import javax.swing.JPanel;
 
-public class ReportPanel extends JPanel {
+public class StatisticPanel extends JPanel {
+	
+	
 
 }

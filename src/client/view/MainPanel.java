@@ -73,8 +73,6 @@ public class MainPanel extends JPanel {
 		btnAddFile.addActionListener(mainPanelListener);
 		btnDownload.addActionListener(mainPanelListener);
 		btnRemoveFile.addActionListener(mainPanelListener);
-		FileListSelectionListener fileSelectionListener = new FileListSelectionListener();
-		fileList.addListSelectionListener(fileSelectionListener);
 	}
 
 	private void initServices() {
@@ -158,14 +156,6 @@ public class MainPanel extends JPanel {
 
 	}
 
-	class FileListSelectionListener implements ListSelectionListener {
-
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			String stringValue = (String) fileList.getSelectedValue();
-		}
-	}
-
 	public void logoutRequest() {
 		try {
 			UserFeedback userFeedback = userSystem
@@ -190,7 +180,7 @@ public class MainPanel extends JPanel {
 		
 		
 		try {
-			FileFeedback fileFeedback = fileSystem.removeFile(selectedFileName);
+			FileFeedback fileFeedback = fileSystem.removeFile(selectedFileName, ServiceManager.dsUser);
 			if(fileFeedback.isSuccess()){
 				refreshFileList();
 				clientFrame.popUpFileSuccess(Constants.SUCCESS_FILE_REMOVE, selectedFileName);
@@ -229,7 +219,7 @@ public class MainPanel extends JPanel {
 		}
 
 		try {
-			FileFeedback fileFeedback = fileSystem.uploadFile(uploadedFile);
+			FileFeedback fileFeedback = fileSystem.uploadFile(uploadedFile, ServiceManager.dsUser);
 			if (fileFeedback.isSuccess()) {
 				refreshFileList();
 				clientFrame.popUpFileSuccess(Constants.SUCCESS_UPLOAD_FILE);
@@ -250,7 +240,7 @@ public class MainPanel extends JPanel {
 		}
 		
 		try {
-			FileFeedback fileFeedback = fileSystem.downloadFile(selectedFileName);
+			FileFeedback fileFeedback = fileSystem.downloadFile(selectedFileName, ServiceManager.dsUser);
 			File file = fileFeedback.getFile();
 			if(fileFeedback.isSuccess() && saveFile(file)){
 				clientFrame.popUpFileSuccess(Constants.SUCCESS_FILE_DOWNLOAD, selectedFileName);

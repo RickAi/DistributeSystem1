@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import managers.StatisticManager;
+
 import utils.Constants;
 
+import beans.DSStatistic;
+import beans.DSUser;
 import beans.feedbacks.Feedback;
 import beans.feedbacks.FileFeedback;
 
@@ -28,10 +32,11 @@ public class FileSystemImpl implements FileSystem {
 		return fileFeedback;
 	}
 
-	public FileFeedback downloadFile(String fileName) {
+	public FileFeedback downloadFile(String fileName, DSUser user) {
 		File file = new File(Constants.FILE_DIR + "/" + fileName);
 		FileFeedback fileFeedback = new FileFeedback();
-		if(file.exists()){
+		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_DOWNLOAD, fileName, user);
+		if(file.exists() && writeResult){
 			fileFeedback.setFile(file);
 			fileFeedback.setResult(Feedback.RESULT_TRUE);
 		} else{
@@ -41,7 +46,7 @@ public class FileSystemImpl implements FileSystem {
 	}
 
 	// TODO: user thread
-	public FileFeedback uploadFile(File file) {
+	public FileFeedback uploadFile(File file, DSUser user) {
 		FileInputStream inputStream;
 		FileOutputStream outputStream;
 		FileFeedback fileFeedback = new FileFeedback();
@@ -78,14 +83,20 @@ public class FileSystemImpl implements FileSystem {
 			e.printStackTrace();
 			fileFeedback.setResult(Feedback.RESULT_FALSE);
 		} 
+		
+		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_DOWNLOAD, file.getName(), user);
+		if(writeResult){
+			fileFeedback.setResult(Feedback.RESULT_FALSE);
+		}
 
 		return fileFeedback;
 	}
 
-	public FileFeedback removeFile(String fileName) {
+	public FileFeedback removeFile(String fileName, DSUser user) {
 		File file = new File(Constants.FILE_DIR + "/" + fileName);
 		FileFeedback fileFeedback = new FileFeedback();
-		if(file.exists()){
+		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_DOWNLOAD, fileName, user);
+		if(file.exists() && writeResult){
 			file.delete();
 			fileFeedback.setResult(Feedback.RESULT_TRUE);
 		} else{
