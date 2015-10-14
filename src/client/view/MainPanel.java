@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -14,17 +16,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.FileChooserUI;
-
-import beans.DSUser;
-import beans.feedbacks.FileFeedback;
-import beans.feedbacks.UserFeedback;
 
 import managers.ServiceManager;
 import utils.Constants;
+import beans.feedbacks.FileFeedback;
+import beans.feedbacks.UserFeedback;
 
 public class MainPanel extends JPanel {
 
@@ -36,6 +34,7 @@ public class MainPanel extends JPanel {
 	private JButton btnDeleteUser;
 
 	private JList<String> fileList;
+	private List<String> fileNames;
 	private FileListModel fileListModel;
 	private JScrollPane fileScroll;
 
@@ -45,9 +44,23 @@ public class MainPanel extends JPanel {
 
 	public MainPanel() {
 		initServices();
+		initDatas();
 		initComponents();
 		initLocations();
 		initListeners();
+	}
+
+	private void initDatas() {
+		try {
+			FileFeedback fileFeedback = fileSystem.availableFiles();
+			if(fileFeedback.isSuccess()){
+				fileNames = fileFeedback.getFileNames();
+			} else{
+				fileNames = new ArrayList<String>();
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initListeners() {
@@ -55,6 +68,8 @@ public class MainPanel extends JPanel {
 		btnLogout.addActionListener(mainPanelListener);
 		btnDeleteUser.addActionListener(mainPanelListener);
 		btnAddFile.addActionListener(mainPanelListener);
+		btnDownload.addActionListener(mainPanelListener);
+		btnRemoveFile.addActionListener(mainPanelListener);
 		FileListSelectionListener fileSelectionListener = new FileListSelectionListener();
 		fileList.addListSelectionListener(fileSelectionListener);
 	}
@@ -95,7 +110,7 @@ public class MainPanel extends JPanel {
 		btnDeleteUser = new JButton(Constants.USER_DELETE);
 
 		// list in the right
-		fileListModel = new FileListModel();
+		fileListModel = new FileListModel(fileNames);
 		fileList = new JList<String>(fileListModel);
 		fileScroll = new JScrollPane();
 		fileScroll.getViewport().add(fileList);
@@ -115,20 +130,27 @@ public class MainPanel extends JPanel {
 				int selectedIndex = fileList.getSelectedIndex();
 			} else if (obj == btnAddFile) {
 				uploadFile();
+			} else if(obj == btnDownload){
+				downloadFile();
 			}
 		}
 	}
 
 	class FileListModel extends AbstractListModel {
+		private List<String> names;
+		
+		public FileListModel(List<String> names) {
+			this.names = names;
+		}
 
 		@Override
 		public int getSize() {
-			return 300;
+			return names.size();
 		}
 
 		@Override
 		public Object getElementAt(int index) {
-			return "file" + index;
+			return names.get(index);
 		}
 
 	}
@@ -196,7 +218,11 @@ public class MainPanel extends JPanel {
 	}
 
 	public void downloadFile() {
-		JFileChooser fc = createFileChooser();
+		try {
+			fileSystem.downloadFile("");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private JFileChooser createFileChooser(){

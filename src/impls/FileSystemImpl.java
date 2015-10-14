@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import utils.Constants;
 
@@ -17,9 +20,12 @@ public class FileSystemImpl implements FileSystem {
 
 	public FileFeedback availableFiles() {
 		File root = new File(Constants.FILE_DIR);
+		String[] strs = root.list();
+		List<String> names = Arrays.asList(strs);
 		
-		
-		return null;
+		FileFeedback fileFeedback = new FileFeedback(Feedback.RESULT_TRUE);
+		fileFeedback.setFileNames(names);
+		return fileFeedback;
 	}
 
 	public FileFeedback downloadFile(String fileName) {
