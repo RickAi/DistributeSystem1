@@ -11,7 +11,7 @@ public class Constants {
 	public static final String USERS_RECORDS = "DB/records/user_records.json";
 	public static final String FILES_RECORDS = "DB/records/file_records.json";
 	public static final String FILE_DIR = "DB/files";
-	public static final String FILE_DOWNLOAD_DIR = "";
+	public static final String FILE_DOWNLOAD_DIR = "downloads";
 	public static final String EMPTY_STRING = "";
 	
 	// Service

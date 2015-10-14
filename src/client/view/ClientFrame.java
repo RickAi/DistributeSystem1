@@ -177,7 +177,7 @@ public class ClientFrame extends JFrame {
 	public void popUpFileSuccess(int successType, String fileName){
 		switch (successType) {
 		case Constants.SUCCESS_FILE_DOWNLOAD:
-			JOptionPane.showMessageDialog(null,"Download "+ fileName+" success!");
+			JOptionPane.showMessageDialog(null,"Download "+ fileName +" success!");
 			break;
 		case Constants.SUCCESS_FILE_REMOVE:
 			JOptionPane.showMessageDialog(null,"Remove " + fileName + " success!");

@@ -6,6 +6,9 @@ import interfaces.UserSystem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +192,8 @@ public class MainPanel extends JPanel {
 		try {
 			FileFeedback fileFeedback = fileSystem.removeFile(selectedFileName);
 			if(fileFeedback.isSuccess()){
-				clientFrame.popUpFileSuccess(Constants.ERROR_FILE_REMOVE, selectedFileName);
+				refreshFileList();
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_FILE_REMOVE, selectedFileName);
 			} else{
 				clientFrame.popUpFileError(Constants.ERROR_FILE_REMOVE, selectedFileName);
 			}
@@ -227,6 +231,7 @@ public class MainPanel extends JPanel {
 		try {
 			FileFeedback fileFeedback = fileSystem.uploadFile(uploadedFile);
 			if (fileFeedback.isSuccess()) {
+				refreshFileList();
 				clientFrame.popUpFileSuccess(Constants.SUCCESS_UPLOAD_FILE);
 			} else {
 				clientFrame.popUpFileError(Constants.ERROR_FILE_UPLOAD);
@@ -238,11 +243,52 @@ public class MainPanel extends JPanel {
 	}
 
 	public void downloadFile() {
+		String selectedFileName = fileList.getSelectedValue();
+		if (selectedFileName == null) {
+			clientFrame.popUpFileError(Constants.ERROR_FILE_NO_SELECTED);
+			return;
+		}
+		
 		try {
-			fileSystem.downloadFile("");
+			FileFeedback fileFeedback = fileSystem.downloadFile(selectedFileName);
+			File file = fileFeedback.getFile();
+			if(fileFeedback.isSuccess() && saveFile(file)){
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_FILE_DOWNLOAD, selectedFileName);
+			} else{
+				clientFrame.popUpFileError(Constants.ERROR_FILE_REMOVE, selectedFileName);
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean saveFile(File file) {
+		File savedFile = new File(Constants.FILE_DOWNLOAD_DIR + "/" + file.getName());
+		FileInputStream inputStream;
+		FileOutputStream outputStream;
+		
+		try {
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			inputStream = new FileInputStream(file);
+			outputStream = new FileOutputStream(savedFile);
+			byte[] buf = new byte[1024];
+			int len = 0;
+			while ((len = inputStream.read(buf)) > 0) {
+				outputStream.write(buf, 0, len);
+			}
+			if (inputStream != null)
+				inputStream.close();
+			if (outputStream != null)
+				outputStream.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			clientFrame.popUpFileError(Constants.ERROR_FILE_DOWNLOAD, file.getName());
+		}
+		return false;
 	}
 
 	private JFileChooser createFileChooser() {
@@ -253,6 +299,14 @@ public class MainPanel extends JPanel {
 		fc.setAcceptAllFileFilterUsed(false);
 		fc.showOpenDialog(this);
 		return fc;
+	}
+	
+	private void refreshFileList(){
+		initDatas();
+		fileListModel = new FileListModel(fileNames);
+		fileList.setModel(fileListModel);
+		fileScroll.revalidate();
+		fileScroll.repaint();
 	}
 
 }
