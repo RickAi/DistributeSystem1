@@ -51,7 +51,7 @@ public class RegisterPanel extends JPanel {
 					if(userFeedback.isSuccess()){
 						clearInputs();
 						clientFrame.loadLoginPanel();
-						clientFrame.popUpSuccess(Constants.SUCCESS_REGISTER);
+						clientFrame.popUpFileSuccess(Constants.SUCCESS_REGISTER);
 					} else{
 						clientFrame.popupUserError(Constants.ERROR_USER_REGISTER);
 					}

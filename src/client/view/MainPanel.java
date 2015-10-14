@@ -53,9 +53,9 @@ public class MainPanel extends JPanel {
 	private void initDatas() {
 		try {
 			FileFeedback fileFeedback = fileSystem.availableFiles();
-			if(fileFeedback.isSuccess()){
+			if (fileFeedback.isSuccess()) {
 				fileNames = fileFeedback.getFileNames();
-			} else{
+			} else {
 				fileNames = new ArrayList<String>();
 			}
 		} catch (RemoteException e) {
@@ -127,10 +127,10 @@ public class MainPanel extends JPanel {
 			} else if (obj == btnDeleteUser) {
 				deleteUserRequest();
 			} else if (obj == btnRemoveFile) {
-				int selectedIndex = fileList.getSelectedIndex();
+				removeFile();
 			} else if (obj == btnAddFile) {
 				uploadFile();
-			} else if(obj == btnDownload){
+			} else if (obj == btnDownload) {
 				downloadFile();
 			}
 		}
@@ -138,7 +138,7 @@ public class MainPanel extends JPanel {
 
 	class FileListModel extends AbstractListModel {
 		private List<String> names;
-		
+
 		public FileListModel(List<String> names) {
 			this.names = names;
 		}
@@ -169,9 +169,29 @@ public class MainPanel extends JPanel {
 					.logout(ServiceManager.dsUser);
 			if (userFeedback.isSuccess()) {
 				clientFrame.loadLoginPanel();
-				clientFrame.popUpSuccess(Constants.SUCCESS_LOGOUT);
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_LOGOUT);
 			} else {
 				clientFrame.popupUserError(Constants.ERROR_USER_LOGOUT);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void removeFile() {
+		String selectedFileName = fileList.getSelectedValue();
+		if (selectedFileName == null) {
+			clientFrame.popUpFileError(Constants.ERROR_FILE_NO_SELECTED);
+			return;
+		}
+		
+		
+		try {
+			FileFeedback fileFeedback = fileSystem.removeFile(selectedFileName);
+			if(fileFeedback.isSuccess()){
+				clientFrame.popUpFileSuccess(Constants.ERROR_FILE_REMOVE, selectedFileName);
+			} else{
+				clientFrame.popUpFileError(Constants.ERROR_FILE_REMOVE, selectedFileName);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -184,7 +204,7 @@ public class MainPanel extends JPanel {
 					.unregister(ServiceManager.dsUser);
 			if (userFeedback.isSuccess()) {
 				clientFrame.loadLoginPanel();
-				clientFrame.popUpSuccess(Constants.SUCCESS_UNREGISTER);
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_UNREGISTER);
 			} else {
 				clientFrame.popupUserError(Constants.ERROR_USER_UNREGISTER);
 			}
@@ -192,23 +212,23 @@ public class MainPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void uploadFile() {
 		JFileChooser fc = createFileChooser();
-		
+
 		File uploadedFile = fc.getSelectedFile();
-		if(uploadedFile == null){
-			return ;
-		} else if(uploadedFile.length() == 0){
+		if (uploadedFile == null) {
+			return;
+		} else if (uploadedFile.length() == 0) {
 			clientFrame.popUpFileError(Constants.ERROR_FILE_NO_CONTENT);
-			return ;
+			return;
 		}
-		
+
 		try {
 			FileFeedback fileFeedback = fileSystem.uploadFile(uploadedFile);
-			if(fileFeedback.isSuccess()){
-				clientFrame.popUpSuccess(Constants.SUCCESS_UPLOAD_FILE);
-			} else{
+			if (fileFeedback.isSuccess()) {
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_UPLOAD_FILE);
+			} else {
 				clientFrame.popUpFileError(Constants.ERROR_FILE_UPLOAD);
 			}
 		} catch (RemoteException e) {
@@ -224,8 +244,8 @@ public class MainPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
-	private JFileChooser createFileChooser(){
+
+	private JFileChooser createFileChooser() {
 		JFileChooser fc = new JFileChooser("");
 		fc.setMultiSelectionEnabled(false);
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -234,6 +254,5 @@ public class MainPanel extends JPanel {
 		fc.showOpenDialog(this);
 		return fc;
 	}
-	
 
 }

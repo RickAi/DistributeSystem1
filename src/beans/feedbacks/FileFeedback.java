@@ -12,6 +12,7 @@ public class FileFeedback extends Feedback implements Serializable {
 	public static final String REMOVE_FILES = "remove_file";
 	private File file;
 	private List<String> fileNames;
+	private String fileName;
 	
 	public FileFeedback(int mResult) {
 		super(mResult);
@@ -34,6 +35,14 @@ public class FileFeedback extends Feedback implements Serializable {
 
 	public void setFileNames(List<String> fileNames) {
 		this.fileNames = fileNames;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 	

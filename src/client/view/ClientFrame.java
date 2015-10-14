@@ -138,6 +138,10 @@ public class ClientFrame extends JFrame {
 			JOptionPane.showMessageDialog(null, "The uploaded file cannot be empty!", "upload error",
 					JOptionPane.ERROR_MESSAGE);
 			break;
+		case Constants.ERROR_FILE_NO_SELECTED:
+			JOptionPane.showMessageDialog(null, "No file has be selected!", "selection error",
+					JOptionPane.ERROR_MESSAGE);
+			break;
 		default:
 			break;
 		}
@@ -147,7 +151,7 @@ public class ClientFrame extends JFrame {
 
 	}
 	
-	public void popUpSuccess(int successType){
+	public void popUpFileSuccess(int successType){
 		switch (successType) {
 		case Constants.SUCCESS_REGISTER:
 			JOptionPane.showMessageDialog(null,"Register success!");
@@ -164,6 +168,34 @@ public class ClientFrame extends JFrame {
 		case Constants.SUCCESS_UNREGISTER:
 			DSUser dsUser = ServiceManager.dsUser;
 			JOptionPane.showMessageDialog(null,"Delete user sucess!\n\n- name:" + dsUser.getName()+"\n- password:" + dsUser.getPassword());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void popUpFileSuccess(int successType, String fileName){
+		switch (successType) {
+		case Constants.SUCCESS_FILE_DOWNLOAD:
+			JOptionPane.showMessageDialog(null,"Download "+ fileName+" success!");
+			break;
+		case Constants.SUCCESS_FILE_REMOVE:
+			JOptionPane.showMessageDialog(null,"Remove " + fileName + " success!");
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void popUpFileError(int errorType, String fileName){
+		switch (errorType) {
+		case Constants.ERROR_FILE_DOWNLOAD:
+			JOptionPane.showMessageDialog(null, "Download " + fileName + " failed!", "download error",
+					JOptionPane.ERROR_MESSAGE);
+			break;
+		case Constants.ERROR_FILE_REMOVE:
+			JOptionPane.showMessageDialog(null, "Remove " + fileName + " failed!", "remove error",
+					JOptionPane.ERROR_MESSAGE);
 			break;
 		default:
 			break;

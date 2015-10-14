@@ -89,7 +89,7 @@ public class LoginPanel extends JPanel {
 				clearInputs();
 				ServiceManager.dsUser = user;
 				clientFrame.loadMainPanel();
-				clientFrame.popUpSuccess(Constants.SUCCESS_LOGIN);
+				clientFrame.popUpFileSuccess(Constants.SUCCESS_LOGIN);
 			} else{
 				clientFrame.popupUserError(Constants.ERROR_USER_LOGIN);
 			}

@@ -11,6 +11,7 @@ public class Constants {
 	public static final String USERS_RECORDS = "DB/records/user_records.json";
 	public static final String FILES_RECORDS = "DB/records/file_records.json";
 	public static final String FILE_DIR = "DB/files";
+	public static final String FILE_DOWNLOAD_DIR = "";
 	public static final String EMPTY_STRING = "";
 	
 	// Service
@@ -50,6 +51,9 @@ public class Constants {
 	public static final int ERROR_REGISTER_PASSWORD = 11;
 	public static final int ERROR_USER_LOGOUT = 12;
 	public static final int ERROR_FILE_NO_CONTENT = 13;
+	public static final int ERROR_FILE_NO_SELECTED = 14;
+	public static final int SUCCESS_FILE_DOWNLOAD = 15;
+	public static final int SUCCESS_FILE_REMOVE = 16;
 	
 	// Success
 	public static final int SUCCESS_REGISTER = 0;
