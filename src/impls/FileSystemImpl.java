@@ -50,8 +50,8 @@ public class FileSystemImpl implements FileSystem {
 		FileInputStream inputStream;
 		FileOutputStream outputStream;
 		FileFeedback fileFeedback = new FileFeedback();
-
 		File uploadedFile = new File(Constants.FILE_DIR + '/' + file.getName());
+		
 		if (uploadedFile.exists()) {
 			fileFeedback.setResult(Feedback.RESULT_FALSE);
 			return fileFeedback;
@@ -84,8 +84,8 @@ public class FileSystemImpl implements FileSystem {
 			fileFeedback.setResult(Feedback.RESULT_FALSE);
 		} 
 		
-		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_DOWNLOAD, file.getName(), user);
-		if(writeResult){
+		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_UPLOAD, file.getName(), user);
+		if(!writeResult){
 			fileFeedback.setResult(Feedback.RESULT_FALSE);
 		}
 
@@ -95,7 +95,7 @@ public class FileSystemImpl implements FileSystem {
 	public FileFeedback removeFile(String fileName, DSUser user) {
 		File file = new File(Constants.FILE_DIR + "/" + fileName);
 		FileFeedback fileFeedback = new FileFeedback();
-		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_DOWNLOAD, fileName, user);
+		boolean writeResult = StatisticManager.writeStatstic(Constants.FILE_REPORT_REMOVE, fileName, user);
 		if(file.exists() && writeResult){
 			file.delete();
 			fileFeedback.setResult(Feedback.RESULT_TRUE);

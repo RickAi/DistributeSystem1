@@ -35,8 +35,8 @@ public class TestLab {
 //		testStatisticData();
 //		testUserData();
 		
-//		addStatisticData();
-//		addUserData();
+		addStatisticData();
+		addUserData();
 	}
 	
 	private static void testStatisticData() {

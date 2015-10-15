@@ -73,6 +73,7 @@ public class MainPanel extends JPanel {
 		btnAddFile.addActionListener(mainPanelListener);
 		btnDownload.addActionListener(mainPanelListener);
 		btnRemoveFile.addActionListener(mainPanelListener);
+		btnReport.addActionListener(mainPanelListener);
 	}
 
 	private void initServices() {
@@ -133,6 +134,8 @@ public class MainPanel extends JPanel {
 				uploadFile();
 			} else if (obj == btnDownload) {
 				downloadFile();
+			} else if(obj == btnReport){
+				clientFrame.loadReportPanel();
 			}
 		}
 	}

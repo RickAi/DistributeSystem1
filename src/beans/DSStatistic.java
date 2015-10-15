@@ -40,7 +40,7 @@ public class DSStatistic implements Serializable {
 	
 	@Override
 	public String toString() {
-		return time + ":user " + userName + " " + getActionString(action);
+		return time + "  " + userName + " " + getActionString(action);
 	}
 	
 	public String getActionString(int action){

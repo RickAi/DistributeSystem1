@@ -36,6 +36,7 @@ public class Constants {
 	public static final String FILE_ADD = "add file";
 	public static final String FILE_REMOVE = "remove file";
 	public static final String FILE_DOWNLOAD = "download";
+	public static final String BACK = "back";
 	
 	// Errors
 	public static final int ERROR_NO_CONNECTION = 0;

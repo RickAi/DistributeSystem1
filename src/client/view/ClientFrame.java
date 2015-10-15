@@ -76,7 +76,8 @@ public class ClientFrame extends JFrame {
 
 	public void loadReportPanel() {
 		this.getContentPane().removeAll();
-		this.setContentPane(reportPanel);
+		this.getContentPane().add(reportPanel, BorderLayout.CENTER);
+		reportPanel.initDatas();
 		repaintFrame();
 	}
 
