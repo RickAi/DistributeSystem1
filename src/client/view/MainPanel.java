@@ -29,6 +29,7 @@ import beans.feedbacks.UserFeedback;
 
 public class MainPanel extends JPanel {
 
+	// all the widgets
 	private JButton btnRemoveFile;
 	private JButton btnDownload;
 	private JButton btnAddFile;
@@ -45,6 +46,7 @@ public class MainPanel extends JPanel {
 	private FileSystem fileSystem;
 	private ClientFrame clientFrame;
 
+	// initialize all the components the situation
 	public MainPanel() {
 		initServices();
 		initDatas();
@@ -52,7 +54,8 @@ public class MainPanel extends JPanel {
 		initLocations();
 		initListeners();
 	}
-
+	
+	// initialize all the data of the file list
 	private void initDatas() {
 		try {
 			FileFeedback fileFeedback = fileSystem.availableFiles();
@@ -66,6 +69,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// initialize all the listeners for the main panel
 	private void initListeners() {
 		MainPanelListener mainPanelListener = new MainPanelListener();
 		btnLogout.addActionListener(mainPanelListener);
@@ -76,12 +80,14 @@ public class MainPanel extends JPanel {
 		btnReport.addActionListener(mainPanelListener);
 	}
 
+	// initialize all the services
 	private void initServices() {
 		userSystem = ServiceManager.userSystem;
 		fileSystem = ServiceManager.fileSystem;
 		clientFrame = ServiceManager.clientFrame;
 	}
 
+	// initialize all the locations of the widgets
 	private void initLocations() {
 		btnReport.setBounds(30, 10, 100, 30);
 		btnAddFile.setBounds(30, 50, 100, 30);
@@ -102,6 +108,7 @@ public class MainPanel extends JPanel {
 		this.add(fileScroll);
 	}
 
+	// initialize all the components
 	private void initComponents() {
 		// buttons in the left
 		btnRemoveFile = new JButton(Constants.FILE_REMOVE);
@@ -118,6 +125,13 @@ public class MainPanel extends JPanel {
 		fileScroll.getViewport().add(fileList);
 	}
 
+	/**
+	 * 
+	 * @author CIR
+	 * 
+	 * MainPanelListener is the listener for the MainPanel
+	 *
+	 */
 	class MainPanelListener implements ActionListener {
 
 		@Override
@@ -140,6 +154,13 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * 
+	 * @author CIR
+	 * 
+	 * FileListModel is the model for the main panel list
+	 *
+	 */
 	class FileListModel extends AbstractListModel {
 		private List<String> names;
 
@@ -159,6 +180,7 @@ public class MainPanel extends JPanel {
 
 	}
 
+	// the client send logout request
 	public void logoutRequest() {
 		try {
 			UserFeedback userFeedback = userSystem
@@ -174,6 +196,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// the client send a remove file request
 	public void removeFile() {
 		String selectedFileName = fileList.getSelectedValue();
 		if (selectedFileName == null) {
@@ -195,6 +218,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// the client send a delete user request
 	public void deleteUserRequest() {
 		try {
 			UserFeedback userFeedback = userSystem
@@ -210,6 +234,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// the client send a upload file request
 	public void uploadFile() {
 		JFileChooser fc = createFileChooser();
 
@@ -235,6 +260,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// the client send a download file request
 	public void downloadFile() {
 		String selectedFileName = fileList.getSelectedValue();
 		if (selectedFileName == null) {
@@ -255,6 +281,7 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	// the client send a save file request
 	private boolean saveFile(File file) {
 		File savedFile = new File(Constants.FILE_DOWNLOAD_DIR + "/" + file.getName());
 		FileInputStream inputStream;
@@ -284,6 +311,7 @@ public class MainPanel extends JPanel {
 		return false;
 	}
 
+	// create a new file chooser for the client
 	private JFileChooser createFileChooser() {
 		JFileChooser fc = new JFileChooser("");
 		fc.setMultiSelectionEnabled(false);
@@ -294,6 +322,7 @@ public class MainPanel extends JPanel {
 		return fc;
 	}
 	
+	// refresh the JList of the file
 	private void refreshFileList(){
 		initDatas();
 		fileListModel = new FileListModel(fileNames);

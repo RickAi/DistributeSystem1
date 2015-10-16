@@ -10,6 +10,7 @@ public class FileManager {
 	
 	public static final File FILES_DIR = new File(Constants.FILE_DIR);
 	
+	// get the number of files from DB
 	public static int getNumberOfFiles(){
 		File filesDir = FILES_DIR;
 		String[] fileNames = filesDir.list();

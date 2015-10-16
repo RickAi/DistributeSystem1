@@ -20,7 +20,13 @@ import utils.Constants;
 import managers.ServiceManager;
 
 public class StatisticPanel extends JPanel {
+
+	/**
+	 * 
+	 * StatisticPanel is the client view of the ClientFrame
+	 */
 	
+	// all the widgets
 	private JButton btnBack;
 	private JTextArea taReport;
 	private JScrollPane reportScroll;
@@ -29,6 +35,8 @@ public class StatisticPanel extends JPanel {
 	private StatisticSystem statisticSystem;
 	private ClientFrame clientFrame;
 	
+	
+	// initialize all the situation of StatisticPanel
 	public StatisticPanel() {
 		initServices();
 		initComponents();
@@ -37,6 +45,7 @@ public class StatisticPanel extends JPanel {
 		initListeners();
 	}
 
+	// initialize all the data of StatisticPanel
 	public void initDatas() {
 		try {
 			StatisticFeedback statisticFeedback = statisticSystem.getFileUsage();
@@ -52,6 +61,7 @@ public class StatisticPanel extends JPanel {
 		taReport.setText(sb.toString());
 	}
 
+	// initialize all the listeners of StatisticPanel
 	private void initListeners() {
 		btnBack.addActionListener(new ActionListener() {
 			
@@ -62,6 +72,7 @@ public class StatisticPanel extends JPanel {
 		});
 	}
 
+	// initialize all the widgets' locations
 	private void initLocations() {
 		btnBack.setBounds(50, 20, 100, 30);
 		reportScroll.getViewport().add(taReport);
@@ -72,7 +83,8 @@ public class StatisticPanel extends JPanel {
 		this.add(btnBack);
 		this.add(reportScroll);
 	}
-
+	
+	// initialize all the widgets
 	private void initComponents() {
 		btnBack = new JButton(Constants.BACK);
 		taReport = new JTextArea();
@@ -80,6 +92,7 @@ public class StatisticPanel extends JPanel {
 		taReport.setEditable(false);
 	}
 
+	// initialize all the services
 	private void initServices() {
 		statisticSystem = ServiceManager.statisticSystem;
 		clientFrame = ServiceManager.clientFrame;

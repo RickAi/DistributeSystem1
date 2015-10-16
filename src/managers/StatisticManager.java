@@ -17,9 +17,15 @@ import utils.TimeUtils;
 
 
 public class StatisticManager extends DBManager {
+	
+	/**
+	 * 
+	 * StatistitcManager is used to manage the statistic DB
+	 */
 
 	public static final File STATISTIC_FILE = new File(Constants.STATISTIC_FILE);
 	
+	// add the statistic into DB from the client request
 	public static boolean addStatisticIntoFile(DSStatistic dsStatistic){
 		DSStatistics dsStatistics = getReportsFromFile();
 		boolean addResult = false;
@@ -32,6 +38,7 @@ public class StatisticManager extends DBManager {
 		return (addResult && emptyResult && writeResult);
 	}
 	
+	// get the statistics report from DB and send it back to client
 	public static DSStatistics getReportsFromFile(){
 		try {
 			return gson.fromJson(new FileReader(STATISTIC_FILE), DSStatistics.class);
@@ -45,6 +52,7 @@ public class StatisticManager extends DBManager {
 		return null;
 	}
 	
+	// write the statistic into DB
 	public static boolean writeStatstic(int writeType, String fileName, DSUser user){
 		String time = TimeUtils.getCurrentTimeString();
 		DSStatistic dsStatistic = new DSStatistic(user.getName(), writeType, fileName, time);

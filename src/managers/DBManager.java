@@ -10,7 +10,13 @@ import utils.Constants;
 import com.google.gson.Gson;
 
 public class DBManager {
+	
+	/**
+	 * 
+	 * The parent manager class for DB management
+	 */
 
+	// initialize gson service
 	public static Gson gson;
 
 	static {

@@ -6,6 +6,11 @@ import java.util.List;
 
 public class FileFeedback extends Feedback implements Serializable {
 	
+	/**
+	 * FileFeedback saved the feedback of file when client and server communicate
+	 * 
+	 */
+	
 	public static final String DOWNLOAD_FILES = "download_files";
 	public static final String AVAILABLE_FILES = "avialable_files";
 	public static final String UPLOAD_FILE = "upload_file";

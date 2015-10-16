@@ -7,6 +7,12 @@ import java.util.List;
 
 public class DSStatistics implements Serializable{
 	
+	/**
+	 * 
+	 * DSStatistics is the statistics of the files model
+	 * 
+	 */
+	
 	private List<DSStatistic> statistics = new ArrayList<DSStatistic>();
 
 	@Override

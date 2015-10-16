@@ -6,6 +6,11 @@ import javax.swing.Icon;
 
 public class Constants {
 	
+	/**
+	 * 
+	 * Constants used to saved all the contants used in the system
+	 */
+	
 	// DB
 	public static final String STATISTIC_FILE = "DB/statistics/statistics.json";
 	public static final String USERS_FILE = "DB/users/users.json";

@@ -21,7 +21,14 @@ import beans.feedbacks.Feedback;
 import beans.feedbacks.FileFeedback;
 
 public class FileSystemImpl implements FileSystem {
+	
+	/**
+	 * 
+	 * FileSystemImpl is the implementation of FileSystem Service
+	 */
+	
 
+	// get the available files from the DB and send it back to client
 	public FileFeedback availableFiles() {
 		File root = new File(Constants.FILE_DIR);
 		String[] strs = root.list();
@@ -32,6 +39,7 @@ public class FileSystemImpl implements FileSystem {
 		return fileFeedback;
 	}
 
+	// get the file that need to download from DB and send it back to client
 	public FileFeedback downloadFile(String fileName, DSUser user) {
 		File file = new File(Constants.FILE_DIR + "/" + fileName);
 		FileFeedback fileFeedback = new FileFeedback();
@@ -45,7 +53,7 @@ public class FileSystemImpl implements FileSystem {
 		return fileFeedback;
 	}
 
-	// TODO: user thread
+	// get the file from client and save it into DB
 	public FileFeedback uploadFile(File file, DSUser user) {
 		FileInputStream inputStream;
 		FileOutputStream outputStream;
@@ -92,6 +100,7 @@ public class FileSystemImpl implements FileSystem {
 		return fileFeedback;
 	}
 
+	// get the file name from client and delete it at DB
 	public FileFeedback removeFile(String fileName, DSUser user) {
 		File file = new File(Constants.FILE_DIR + "/" + fileName);
 		FileFeedback fileFeedback = new FileFeedback();

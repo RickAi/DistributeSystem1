@@ -1,23 +1,26 @@
 package client.view;
 
+import interfaces.UserSystem;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-
-import interfaces.UserSystem;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import managers.ServiceManager;
+import utils.Constants;
 import beans.DSUser;
 import beans.feedbacks.UserFeedback;
 
-import utils.Constants;
-
-import managers.ServiceManager;
-
 public class LoginPanel extends JPanel {
+	
+	/**
+	 * 
+	 * LoginPanel is the client view to login
+	 */
 	
 	// components
 	private JTextField tfName;
@@ -30,6 +33,7 @@ public class LoginPanel extends JPanel {
 	private ClientFrame clientFrame;
 	
 	
+	// initialize all the data and situation
 	public LoginPanel() {
 		initServices();
 		initComponents();
@@ -37,17 +41,20 @@ public class LoginPanel extends JPanel {
 		initListeners();
 	}
 
+	// initialize the services
 	private void initServices() {
 		clientFrame = ServiceManager.clientFrame;
 		userSystem = ServiceManager.userSystem;
 	}
 
+	// initialize all the listeners
 	private void initListeners() {
 		LoginPanelListener listener = new LoginPanelListener();
 		btnLogin.addActionListener(listener);
 		btnRegister.addActionListener(listener);
 	}
-
+	
+	// initialize all the widgets' locations
 	private void initLocations() {
 		tfName.setBounds(150, 170, 300, 30);
 		tfPassword.setBounds(150, 220, 300, 30);
@@ -61,6 +68,7 @@ public class LoginPanel extends JPanel {
 		this.add(btnRegister);
 	}
 
+	// initialize all the instance of components
 	private void initComponents() {
 		tfName = new JTextField();
 		tfPassword = new JTextField();
@@ -68,6 +76,13 @@ public class LoginPanel extends JPanel {
 		btnRegister = new JButton(Constants.REGISTER_BUTTON);
 	}
 	
+	/**
+	 * 
+	 * @author CIR
+	 * 
+	 * LoginPanelListener is the listener for the LoginPanel
+	 *
+	 */
 	class LoginPanelListener implements ActionListener{
 
 		@Override
@@ -81,6 +96,7 @@ public class LoginPanel extends JPanel {
 		}
 	}
 
+	// the client send a login request
 	public void loginRequest() {
 		DSUser user = new DSUser(tfName.getText(), tfPassword.getText());
 		try {
@@ -99,10 +115,12 @@ public class LoginPanel extends JPanel {
 		}
 	}
 
+	// the client send a register request
 	public void registerRequest() {
 		clientFrame.loadRegisterPanel();
 	}
 	
+	// clear all the inputs of login and register JTextField
 	public void clearInputs(){
 		tfName.setText(Constants.EMPTY_STRING);
 		tfPassword.setText(Constants.EMPTY_STRING);

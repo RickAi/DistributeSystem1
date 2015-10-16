@@ -17,6 +17,11 @@ import utils.Constants;
 
 public class Client {
 	
+	/**
+	 * Client is used to get the service of user, file and statistic
+	 * 
+	 */
+	
 	private ClientFrame clientFrame;
 	
 	public Client() {

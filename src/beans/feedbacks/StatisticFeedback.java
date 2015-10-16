@@ -8,6 +8,11 @@ import beans.DSStatistics;
 
 public class StatisticFeedback extends Feedback implements Serializable {
 	
+	/**
+	 * Statistic saved the feedback of statistic when client and server communicate
+	 * 
+	 */
+	
 	public static final String FILE_USAGE = "file_usage";
 	
 	private List<DSStatistic> dsStatistics;

@@ -1,18 +1,20 @@
 package client.view;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import managers.ServiceManager;
+import utils.Constants;
 import beans.DSUser;
 
-import managers.ServiceManager;
-
-import utils.Constants;
-
 public class ClientFrame extends JFrame {
+	
+	/**
+	 * ClientFrame is the frame of the client
+	 * 
+	 */
 
 	// panels
 	private LoginPanel loginPanel;
@@ -28,10 +30,12 @@ public class ClientFrame extends JFrame {
 		initFrame();
 	}
 
+	// initialize the service
 	private void initService() {
 		ServiceManager.clientFrame = this;
 	}
 
+	// judge the service is connected or not
 	public void isServiceConnected() {
 		if(ServiceManager.userSystem == null 
 				|| ServiceManager.fileSystem == null 
@@ -40,6 +44,7 @@ public class ClientFrame extends JFrame {
 		}
 	}
 
+	// initialize the panels
 	private void initPanels() {
 		loginPanel = new LoginPanel();
 		registerPanel = new RegisterPanel();
@@ -47,6 +52,7 @@ public class ClientFrame extends JFrame {
 		reportPanel = new StatisticPanel();
 	}
 
+	// initialize the client frame
 	private void initFrame() {
 		loadLoginPanel();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,36 +62,42 @@ public class ClientFrame extends JFrame {
 		this.setVisible(true);
 	}
 
+	// change the client frame's content to login panel
 	public void loadLoginPanel() {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(loginPanel, BorderLayout.CENTER);
 		repaintFrame();
 	}
 
+	// change the client frame's content to register panel
 	public void loadRegisterPanel() {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(registerPanel, BorderLayout.CENTER);
 		repaintFrame();
 	}
 
+	// change the client frame's content to main panel
 	public void loadMainPanel() {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		repaintFrame();
 	}
 
+	// change the client frame's content to report panel
 	public void loadReportPanel() {
 		this.getContentPane().removeAll();
 		this.getContentPane().add(reportPanel, BorderLayout.CENTER);
 		reportPanel.initDatas();
 		repaintFrame();
 	}
-
+	
+	// repaint the client frame
 	private void repaintFrame() {
 		this.getContentPane().validate();
 		this.getContentPane().repaint();
 	}
 
+	// pop up a connection error dialog with a error type
 	public void popUpConnectionError(int errorType) {
 		switch (errorType) {
 		case Constants.ERROR_NO_CONNECTION:
@@ -97,6 +109,7 @@ public class ClientFrame extends JFrame {
 		}
 	}
 
+	// pop up a user error dialog with a error type
 	public void popupUserError(int errorType) {
 		switch (errorType) {
 		case Constants.ERROR_USER_LOGIN:
@@ -129,6 +142,7 @@ public class ClientFrame extends JFrame {
 		}
 	}
 
+	// pop up a file error dialog with a success type
 	public void popUpFileError(int errorType) {
 		switch (errorType) {
 		case Constants.ERROR_FILE_UPLOAD:
@@ -147,11 +161,8 @@ public class ClientFrame extends JFrame {
 			break;
 		}
 	}
-
-	public void popUpStatisticError(int errorType) {
-
-	}
 	
+	// pop up a file success dialog with a success type
 	public void popUpFileSuccess(int successType){
 		switch (successType) {
 		case Constants.SUCCESS_REGISTER:
@@ -175,6 +186,7 @@ public class ClientFrame extends JFrame {
 		}
 	}
 	
+	// pop up a file success dialog with a success type
 	public void popUpFileSuccess(int successType, String fileName){
 		switch (successType) {
 		case Constants.SUCCESS_FILE_DOWNLOAD:
@@ -188,6 +200,7 @@ public class ClientFrame extends JFrame {
 		}
 	}
 	
+	// pop up a file error dialog with a error type
 	public void popUpFileError(int errorType, String fileName){
 		switch (errorType) {
 		case Constants.ERROR_FILE_DOWNLOAD:

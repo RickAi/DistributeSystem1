@@ -1,25 +1,28 @@
 package client.view;
 
+import interfaces.UserSystem;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-import interfaces.UserSystem;
-
-import javax.imageio.spi.RegisterableService;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import managers.ServiceManager;
+import utils.Constants;
 import beans.DSUser;
 import beans.feedbacks.UserFeedback;
 
-import managers.ServiceManager;
-
-import utils.Constants;
-
 public class RegisterPanel extends JPanel {
 	
+	/**
+	 * RegisterPanel is the view of the register
+	 * 
+	 */
+	
+	// all the widgets
 	private JTextField tfName;
 	private JTextField tfPassword;
 	private JTextField tfPassword2;
@@ -28,6 +31,7 @@ public class RegisterPanel extends JPanel {
 	private UserSystem userSystem;
 	private ClientFrame clientFrame;
 	
+	// initialize all the situation of the RegisterPanel
 	public RegisterPanel() {
 		initServices();
 		initComponents();
@@ -35,6 +39,7 @@ public class RegisterPanel extends JPanel {
 		initListeners();
 	}
 
+	// initialize all the listeners of the RegisterPanel
 	private void initListeners() {
 		btnRegister.addActionListener(new ActionListener() {
 			
@@ -63,6 +68,7 @@ public class RegisterPanel extends JPanel {
 		});
 	}
 
+	// initialize all the widgets' locations
 	private void initLocations() {
 		tfName.setBounds(150, 150, 300, 30);
 		tfPassword.setBounds(150, 200, 300, 30);
@@ -76,6 +82,7 @@ public class RegisterPanel extends JPanel {
 		this.add(btnRegister);
 	}
 
+	// initialize all the components
 	private void initComponents() {
 		tfName = new JTextField();
 		tfPassword = new JTextField();
@@ -83,11 +90,13 @@ public class RegisterPanel extends JPanel {
 		btnRegister = new JButton(Constants.REGISTER_BUTTON);
 	}
 
+	// initialize all the services
 	private void initServices() {
 		clientFrame = ServiceManager.clientFrame;
 		userSystem = ServiceManager.userSystem;
 	}
 	
+	// clear the inputs of three widgets
 	public void clearInputs(){
 		tfName.setText(Constants.EMPTY_STRING);
 		tfPassword.setText(Constants.EMPTY_STRING);

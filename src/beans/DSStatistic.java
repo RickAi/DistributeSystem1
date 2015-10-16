@@ -6,6 +6,12 @@ import java.util.Date;
 import utils.Constants;
 
 public class DSStatistic implements Serializable {
+	
+	/**
+	 * DSStatistic is the statistic of file model
+	 * 
+	 */
+	
 	private String userName;
 	private int action;
 	private String fileName;

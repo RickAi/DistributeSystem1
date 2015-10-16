@@ -17,6 +17,11 @@ import utils.Constants;
 
 public class Server {
 	
+	/**
+	 * 
+	 * Server class to used to open services in port 1099
+	 */
+	
 	public void bindServices(){
 		Registry registry;
 		try {
